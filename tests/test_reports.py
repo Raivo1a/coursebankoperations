@@ -1,24 +1,22 @@
+from datetime import datetime
+
+import pandas as pd
+
 from src.reports import spent_by_category
 
 
-def test_spent_by_category(transactions_fixture: list):
-    result = spent_by_category(transactions_fixture, "Транспорт", "2018-01-01")
-    assert result == [
-        {
-            "Дата операции": "11.01.2018 00:00:00",
-            "Дата платежа": "13.01.2018",
-            "Номер карты": "*7197",
-            "Статус": "OK",
-            "Сумма операции": -94.0,
-            "Валюта операции": "RUB",
-            "Сумма платежа": -94.0,
-            "Валюта платежа": "RUB",
-            "Кэшбэк": 0,
-            "Категория": "Транспорт",
-            "MCC": 4121.0,
-            "Описание": "Яндекс Такси",
-            "Бонусы (включая кэшбэк)": 1,
-            "Округление на инвесткопилку": 0,
-            "Сумма операции с округлением": 94.0
-        }
-    ]
+def test_spent_by_category(transactions_fixture_df):
+    category = "Еда"
+    start_date_str = "2023-01-01"
+    expected_data = {
+        "Дата операции": [
+            datetime(2023, 1, 1, 10, 0),
+            datetime(2023, 1, 15, 11, 0),
+            datetime(2023, 1, 25, 12, 0),
+        ],
+        "Категория": ["Еда", "Еда", "Еда"],
+        "Сумма": [-100.5, -250.75, -150.0],
+    }
+    expected_df = pd.DataFrame(expected_data)
+    result_df = spent_by_category(transactions_fixture_df, category, start_date_str)
+    pd.testing.assert_frame_equal(result_df, expected_df)

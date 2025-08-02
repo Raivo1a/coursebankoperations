@@ -1,14 +1,16 @@
 import json
+from datetime import datetime
 
-from src.utils import (date, total, top, get_data_time, filter_transactions_by_date, read_xlsx_file, currency_rates, stock_prices)
+from src.utils import currency_rates, date, filter_transactions_by_date, read_xlsx_file, stock_prices, top, total
 
 
 def main_info():
-    '''Функция для главной страницы, объединяющая модуль utils'''
+    """Функция для главной страницы, объединяющая модуль utils"""
 
+    current_date_time = datetime.now()
     user_input = input("Введите дату и время в формате YYYY-MM-DD HH:MM:SS ")
-    transactions = read_xlsx_file('C:/Users/User/PycharmProjects/CourseBankOperations/data/operations.xlsx')
-    greeting = date()
+    transactions = read_xlsx_file("C:/Users/User/PycharmProjects/CourseBankOperations/data/operations.xlsx")
+    greeting = date(current_date_time)
     cards = total(filter_transactions_by_date(transactions, user_input))
     top_transactions = top(filter_transactions_by_date(transactions, user_input))
     actual_currency_rates = [
@@ -21,8 +23,7 @@ def main_info():
         {"stock": "GOOGL", "price": stock_prices("GOOGL")},
         {"stock": "MSFT", "price": stock_prices("MSFT")},
         {"stock": "TSLA", "price": stock_prices("TSLA")},
-        ]
-
+    ]
 
     data = {
         "greeting": greeting,
