@@ -17,5 +17,6 @@ def main():
     print(categories(user_category, user_start_date))  # вывод трат по категориям
     print(f'Траты по категории {user_category} выведены в файл')
 
+
 if __name__ == "__main__":
     print(main())
